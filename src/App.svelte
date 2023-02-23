@@ -1,4 +1,5 @@
 <script lang="ts">
+    import TestPage from "./lib/pages/test-page.svelte";
   import VideoPage from "./lib/pages/video-page.svelte";
   import PeerService from "./lib/services/peer-service/peer.service";
   //import ShareScreenPage from "./lib/pages/share-screen-page.svelte";
@@ -14,14 +15,13 @@
   <input bind:value={to} />
 </div>
 
-<VideoPage uuid={to} />
+<TestPage uuid={to} />
 
 <style lang="scss">
   .sendform {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
 
     height: 20px;
 
