@@ -12,7 +12,7 @@
 
         const stream = await VideoService.startVideoCall(uuid);
         videoOtherPeer.srcObject = stream;
-        videoOtherPeer.play
+        videoOtherPeer.play();
     };
 
     let isTurnOn: boolean;
