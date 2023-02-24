@@ -1,17 +1,12 @@
-<script>
-    import { Peer } from "peerjs";
+<script lang="ts">
+    import PeerService from "../services/peer-service/peer.service";
     import MediaDeviceType from "../shared/media-devices/media-device-type";
-    var peer = new Peer();
-    let codeid = "";
-    let youid = "";
 
+    const peer = PeerService.peer;
     let videoOther;
     let videoMe;
-    // GET YOU ID
-    peer.on("open", (id) => (youid = id));
-    // HANDLE CONNECTTION
+    
     peer.on("call", async (call) => {
-        // open webcam
         await navigator.mediaDevices
             .getUserMedia(MediaDeviceType.ALL_ENABLED)
             .then((stream) => {
@@ -21,24 +16,22 @@
                 call.on("stream", renderOther);
             });
     });
-    // RENDER YOU WEBCAM HERE
+    
     let renderOther = (stream) => {
         videoOther.srcObject = stream;
         videoOther.play();
     };
+
+    export let uuid: string;
 </script>
 
 <div>
-    you id cam = {youid}
-    <br />
-    code : <input type="" bind:value={codeid} name="" />
     <button
         on:click={async () => {
-            // OPEN YOU WEBAM
             await navigator.mediaDevices
                 .getUserMedia(MediaDeviceType.ALL_ENABLED)
                 .then((stream) => {
-                    let call = peer.call(codeid, stream);
+                    let call = peer.call(uuid, stream);
                     videoMe.srcObject = stream;
                     videoMe.play();
                     call.on("stream", renderOther);
