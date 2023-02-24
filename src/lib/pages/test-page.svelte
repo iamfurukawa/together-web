@@ -8,7 +8,7 @@
     let videoOther;
     let videoMe;
     // GET YOU ID
-    peer.on("open", (id) => youid = id);
+    peer.on("open", (id) => (youid = id));
     // HANDLE CONNECTTION
     peer.on("call", async (call) => {
         // open webcam
@@ -16,16 +16,15 @@
             .getUserMedia(MediaDeviceType.ALL_ENABLED)
             .then((stream) => {
                 call.answer(stream);
-                call.on("stream", renderYouwebcam);
-                videoOther.srcObject = stream;
-                videoOther.play();
+                videoMe.srcObject = stream;
+                videoMe.play();
+                call.on("stream", renderOther);
             });
     });
     // RENDER YOU WEBCAM HERE
-    let renderYouwebcam = (stream) => {
-        console.log(stream);
-        videoMe.srcObject = stream;
-        videoMe.play();
+    let renderOther = (stream) => {
+        videoOther.srcObject = stream;
+        videoOther.play();
     };
 </script>
 
@@ -33,7 +32,6 @@
     you id cam = {youid}
     <br />
     code : <input type="" bind:value={codeid} name="" />
-    <!-- BUTTON CONNECT TO FRIEND -->
     <button
         on:click={async () => {
             // OPEN YOU WEBAM
@@ -41,12 +39,12 @@
                 .getUserMedia(MediaDeviceType.ALL_ENABLED)
                 .then((stream) => {
                     let call = peer.call(codeid, stream);
-                    videoOther.srcObject = stream;
-                    videoOther.play();
-                    call.on("stream", renderYouwebcam);
+                    videoMe.srcObject = stream;
+                    videoMe.play();
+                    call.on("stream", renderOther);
                 });
-        }}
-    >connect</button>
+        }}>connect</button
+    >
 
     <div>
         <!-- VIDEO YOU FRIEND TAG HTML -->
